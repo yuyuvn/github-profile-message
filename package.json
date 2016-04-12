@@ -1,6 +1,6 @@
 {
   "name": "github-profile-message",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Create a message in your github profile page",
   "main": "lib/github_led.js",
   "scripts": {
@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/yuyuvn/github-profile-message#readme",
   "dependencies": {
-    "app-root-path": "^1.0.0",
     "coffee-script": "^1.10.0",
-    "fs-extra": "^0.26.7",
     "githubot": "yuyuvn/githubot",
     "nodegit": "^0.12.2",
-    "promisify-node": "^0.4.0"
+    "path": "^0.12.7",
+    "promisify-node": "^0.4.0",
+    "temp": "^0.8.3"
   }
 }

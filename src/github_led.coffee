@@ -1,19 +1,16 @@
 nodegit = require "nodegit"
 path = require "path"
 promisify = require "promisify-node"
-fse = promisify require "fs-extra"
-appDir = require "app-root-path"
 github = require "githubot"
-
-fse.ensureDir = promisify(fse.ensureDir)
+temp = promisify require("temp").track()
+fse = promisify require "fs-extra"
 
 class GithubLED
-  constructor: (config) ->
+  constructor: (config={}) ->
     @config =
-      repo: config?.repo || process.env.GITHUB_LED_REPO
-      push_number: config?.push_number || process.env.GITHUB_PUSH_NUMBER || 100
-      temp_path: config?.path || process.env.GITHUB_LED_TEMP_PATH || "#{appDir}/tmp/git_clone"
-    if config?.font?
+      repo: config.repo || process.env.GITHUB_LED_REPO
+      push_number: config.push_number || process.env.GITHUB_PUSH_NUMBER || 100
+    if config.font?
       if typeof config.font is "string"
         @config.font = require config.font
       else
@@ -39,7 +36,7 @@ class GithubLED
     @repository.openIndex().then (idx) =>
       @index = idx
     .then () =>
-      @index.addByPath("README.md")
+      @index.addByPath "README.md"
     .then () =>
       @index.write()
     .then () =>
@@ -77,11 +74,7 @@ class GithubLED
         date.setDate date.getDate()+1
 
     # create git repo
-    fse.remove(@config.temp_path).then =>
-      fse.ensureDir @config.temp_path
-    .then () =>
-      github.get "user"
-    .then (user) =>
+    github.get("user").then (user) =>
       @name = user.name
       @email = user.email
       @user = user.login
@@ -92,7 +85,9 @@ class GithubLED
         github.get("user/emails").then (emails) =>
           @email = emails[0].email
     .then () =>
-      nodegit.Repository.init @config.temp_path, 0
+      temp.mkdir "git_folder"
+    .then (dir_path) =>
+      nodegit.Repository.init dir_path, 0
     .then (@repository) =>
       fse.writeFile path.join(@repository.workdir(), "README.md"), "# Nothing here"
     .then () =>
@@ -114,10 +109,9 @@ class GithubLED
       remote.push ["refs/heads/master:refs/heads/master"], callbacks:
         certificateCheck: () -> 1
         credentials: (url, userName) ->
-          nodegit.Cred.userpassPlaintextNew(process.env.HUBOT_GITHUB_TOKEN, "x-oauth-basic")
+          nodegit.Cred.userpassPlaintextNew process.env.HUBOT_GITHUB_TOKEN, "x-oauth-basic"
     .then () =>
-      # remote url has token so we should delete it
-      fse.remove @config.temp_path
+      temp.cleanup()
     .catch (err) =>
       console.log err
 
