@@ -21,12 +21,12 @@
   "homepage": "https://github.com/yuyuvn/github-profile-message#readme",
   "dependencies": {
     "githubot": "yuyuvn/githubot",
-    "nodegit": "^0.12.2",
+    "nodegit": "^0.20.3",
     "path": "^0.12.7",
     "promisify-node": "^0.4.0",
     "temp": "^0.8.3"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0"
+    "coffeescript": "^1.12.7"
   }
 }
