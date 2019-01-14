@@ -1,8 +1,10 @@
 # Github profile message
 
 ## Install ##
+```bash
 brew install python
 npm install github-profile-message --save
+```
 
 ## Usage ##
 Do not use an existed repo or it'll be deleted!
