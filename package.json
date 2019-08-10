@@ -1,6 +1,6 @@
 {
   "name": "github-profile-message",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Create a message in your github profile page",
   "main": "lib/github_led.js",
   "scripts": {
