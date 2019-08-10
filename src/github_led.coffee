@@ -33,7 +33,7 @@ class GithubLED
     , Promise.resolve()
 
   commit: (time) ->
-    @repository.openIndex().then (idx) =>
+    @repository.index().then (idx) =>
       @index = idx
     .then () =>
       @index.addByPath "README.md"
