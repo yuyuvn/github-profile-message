@@ -4,7 +4,7 @@
   "description": "Create a message in your github profile page",
   "main": "lib/github_led.js",
   "scripts": {
-    "build": "./node_modules/coffeescript/bin/coffee --compile --output lib src",
+    "build": "node ./node_modules/coffeescript/bin/coffee --compile --output lib src",
     "test": "mocha --compilers coffee:coffee-script/register --reporter spec"
   },
   "repository": {
